@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar'
 import { BASE_URL } from '../services/helper'
 
 const Admin = () => {
-
+console.log("Admin")
     const [users, setUsers] = useState([])
 
     const getUsers = async () => {

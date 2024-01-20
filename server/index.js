@@ -1,30 +1,23 @@
 const express = require('express')
 const cors = require('cors')
 const fileUpload = require('express-fileupload')
-const Users = require('./db/UserSch')
-const Profiles = require('./db/ProfileSch')
-const Projects = require('./db/ProjectSch')
+const Profiles = require('./models/ProfileSch')
+const Projects = require('./models/ProjectSch')
 require('./db/config')
+const userRoute = require("./routes/userRoute");
+const profileRoute = require("./routes/profileRoute");
 
 const app = express()
-const PORT = process.env.PORT || 1234
+const PORT = process.env.PORT || 5000
 
 app.use(cors())
 app.use(express.json())
 app.use(fileUpload())
 app.use(express.static('public'))
 
-// posting users...
-app.post("/users", async (req, res) => {
-    const user = await Users(req.body)
-    await user.save();
-})
-
-// getting users...
-app.get("/users-details", async (req, res) => {
-    const result = await Users.find()
-    res.send(result)
-})
+//APIs
+app.use("", userRoute);
+app.use("", profileRoute);
 
 // posting profile...
 app.post("/profiles", async (req, res) => {
@@ -67,12 +60,6 @@ app.post("/profiles", async (req, res) => {
         await profile.save()
         res.json({ "status": "Record inserted successfully!" })
     }
-})
-
-// getting the posted profile information...
-app.get("/profiles-details", async (req, res) => {
-    const result = await Profiles.find()
-    res.send(result)
 })
 
 // editing the profile information...
