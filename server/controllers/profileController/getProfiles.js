@@ -3,7 +3,7 @@ const ProfileSch = require("../../models/ProfileSch");
 // getting the posted profile information...
 async function getProfiles(req, res) {
   try {
-    const result = await ProfileSch.find();
+    const result = await ProfileSch.find().select("-profileImage");;
     if (result.length) {
       res.status(200).send({
         success: true,

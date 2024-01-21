@@ -3,7 +3,7 @@ const UserSch = require("../../models/UserSch");
 // posting users...
 async function registerUser(req, res) {
   try {
-    const { fname, username, password } = req.body;
+    const { fname, username, password } = req.fields;
 
     switch (true) {
       case !fname:
@@ -25,7 +25,7 @@ async function registerUser(req, res) {
         break;
     }
 
-    const user = await UserSch(req.body);
+    const user = await UserSch(req.fields);
     const result = await user.save();
 
     if (result) {

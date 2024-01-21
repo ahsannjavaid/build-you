@@ -8,7 +8,10 @@ const profileSchema = mongoose.Schema ({
     countryName: String,
     profession: String,
     description: String,
-    profileImage: String,
+    profileImage: {
+        data: Buffer,
+      contentType: String
+    },
     projects: Number,
     followers: Number,
     following: Number
