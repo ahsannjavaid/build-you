@@ -25,14 +25,21 @@ async function registerUser(req, res) {
         break;
     }
 
-    const user = await UserSch(req.fields);
-    const result = await user.save();
+    const userExists = await UserSch.findOne({ username });
 
-    if (result) {
+    if (!userExists) {
+      const user = await UserSch(req.fields);
+      const result = await user.save();
+
       res.status(200).send({
         success: true,
         message: "User registered successfully!",
         data: result,
+      });
+    } else {
+      res.status(409).send({
+        success: false,
+        message: "This username already exists.",
       });
     }
   } catch (error) {

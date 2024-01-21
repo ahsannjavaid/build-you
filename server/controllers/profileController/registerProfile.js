@@ -36,11 +36,13 @@ async function registerProfile(req, res) {
 
     const result = await profile.save();
 
+    const { profileImage: photo, ...objectWithoutProfileImageField } = result.toObject();
+
     if (result) {
       res.status(200).send({
         success: true,
         message: "Profile registered successfully!",
-        data: result,
+        data: objectWithoutProfileImageField,
       });
     }
   } catch (error) {

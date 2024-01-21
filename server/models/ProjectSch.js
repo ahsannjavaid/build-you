@@ -2,7 +2,10 @@
 
 const mongoose = require('mongoose')
 const projectSchema = mongoose.Schema({
-    projectImage: String,
+    projectImage: {
+        data: Buffer,
+      contentType: String
+    },
     projectName: String,
     projectDescription: String,
     projectTag: String,

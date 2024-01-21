@@ -28,33 +28,37 @@ async function editProfile(req, res) {
         break;
     }
 
-    const isUsernameUnique = await ProfileSch.exists({ username });
+    const thisUsername = await ProfileSch.findById(id).select("username");
+    const allowedLength = thisUsername.username === username ? 1 : 0;
 
-    if (isUsernameUnique) {
-      // if the username is unique, continue
-      const profile = await ProfileSch.findByIdAndUpdate(id, req.fields);
+    const isDuplicate = await ProfileSch.find({ username });
 
+    if (isDuplicate.length <= allowedLength) {
+      const result = await ProfileSch.findByIdAndUpdate(id, req.fields, {
+        new: true,
+      });
+
+      // Update profileImage if a new image is provided
       if (profileImage) {
-        profile.profileImage.data = fs.readFileSync(profileImage.path);
-        profile.profileImage.contentType = profileImage.type;
+        result.profileImage.data = fs.readFileSync(profileImage.path);
+        result.profileImage.contentType = profileImage.type;
       }
-  
-      const result = await profile.save();
-  
-      if (result) {
-        res.status(200).send({
-          success: true,
-          message: "Profile edited successfully!",
-          data: result,
-        });
-      }
+
+      await result.save();
+
+      const { profileImage: photo, ...editedInfo } = result.toObject();
+
+      res.status(200).send({
+        success: true,
+        message: "Profile edited successfully!",
+        data: editedInfo,
+      });
     } else {
-      // if the username is not unique, handle accordingly
       res.status(409).send({
         success: false,
-        message: "Username is not unique",
+        message: "This username already exists.",
       });
-    }   
+    }
   } catch (error) {
     console.log(error);
     res.status(500).send({
@@ -65,47 +69,3 @@ async function editProfile(req, res) {
 }
 
 module.exports = editProfile;
-
-
-
-// app.put("/profile-details/:id", async (req, res) => {
-//     const _id = req.params.id
-//     if (req.files) {
-//         var pp = req.files.profileImage
-//         pp.mv("public/uploads/" + pp.name, async function (err) {
-//             if (err) {
-//                 res.json({ "status": "File not uploaded!" })
-//             }
-//             else {
-//                 const updateProfile = await Profiles.findByIdAndUpdate(_id, {
-//                     username: req.body.username,
-//                     profession: req.body.profession,
-//                     description: req.body.description,
-//                     phoneNum: req.body.phoneNum,
-//                     email: req.body.email,
-//                     countryName: req.body.countryName,
-//                     projects: req.body.projects,
-//                     followers: req.body.followers,
-//                     following: req.body.following,
-//                     profileImage: pp.name
-//                 })
-//                 res.send(updateProfile)
-//             }
-
-//         })
-//     }
-//     else {
-//         const updateProfile = await Profiles.findByIdAndUpdate(_id, {
-//             username: req.body.username,
-//             profession: req.body.profession,
-//             description: req.body.description,
-//             phoneNum: req.body.phoneNum,
-//             email: req.body.email,
-//             countryName: req.body.countryName,
-//             projects: req.body.projects,
-//             followers: req.body.followers,
-//             following: req.body.following,
-//         })
-//         res.send(updateProfile)
-//     }
-// })
