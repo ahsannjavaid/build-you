@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import NavbarU from '../components/NavbarU'
-import { BASE_URL } from '../services/helper'
+import { BASE_URL } from '../services/config'
 
 const SingleProjectW = () => {
 

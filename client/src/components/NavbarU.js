@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { BASE_URL } from '../services/helper'
+import { BASE_URL } from '../services/config'
 
 const NavbarU = () => {
 

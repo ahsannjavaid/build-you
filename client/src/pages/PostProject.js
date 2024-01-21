@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import NavbarU from '../components/NavbarU'
-import { BASE_URL } from '../services/helper'
+import { BASE_URL } from '../services/config'
 
 const PostProject = () => {
 

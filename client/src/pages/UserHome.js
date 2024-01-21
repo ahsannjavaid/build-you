@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import NavbarU from '../components/NavbarU'
-import { BASE_URL } from '../services/helper'
+import { BASE_URL } from '../services/config'
 
 const Profile = () => {
 

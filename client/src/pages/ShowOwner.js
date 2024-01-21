@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Card from '../components/Card'
 import Navbar from '../components/Navbar'
-import { BASE_URL } from '../services/helper'
+import { BASE_URL } from '../services/config'
 
 const ShowOwner = () => {
 

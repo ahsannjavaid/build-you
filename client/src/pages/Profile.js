@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import NavbarU from '../components/NavbarU'
 import CardP from '../components/CardP'
-import { BASE_URL } from '../services/helper'
+import { BASE_URL } from '../services/config'
 
 const Profile = () => {
 

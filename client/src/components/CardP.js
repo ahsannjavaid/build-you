@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { BASE_URL } from '../services/helper'
+import { BASE_URL } from '../services/config'
 
 const CardP = (props) => {
 
