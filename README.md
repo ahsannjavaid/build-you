@@ -1,10 +1,60 @@
-# Getting Started with Create React App
+# What is Build You?
+
+Assalam-u-Alaikum!
+
+Build you is a portfolio site where user can build their portfolio by adding their about info and posting projects. Users can see different projects posted by other users and owner details as well.
+
+## Summary/Flow of the Project:
+
+1. The user first register them if they have not signed up before (otherwise they will simply log in).
+2. The user then prepare their profile with their bio-data and other stuff.
+3. After making profile, user can post their projects which will be set to public for showcase purposes.
+
+## CRUD Functionality
+
+* Owners can post and edit their about info
+* Owners can edit and delete their projects
+
+
+# Hosting
+
+I have used free services for the hosting of this project.
+
+## Client (client)
+
+The client has been hosted on [Netlify](https://www.netlify.com/).
+
+## Server (server)
+
+The server has been hosted on [Render](https://www.render.com/).
+
+
+# Server: Node.js, Express.js and MongoDB
+
+## Available Scripts
+
+First of all install dependencies by typing following command in **server** directory:
+
+### `npm install`
+
+In server directory, you can run:
+
+### `npm start`
+
+Runs the server in the development mode at URL [http://localhost:5000](http://localhost:5000).
+
+
+# Client: Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
-In the project directory, you can run:
+First of all install dependencies by typing following command in **client** directory:
+
+### `npm install`
+
+In client directory, you can run:
 
 ### `npm start`
 

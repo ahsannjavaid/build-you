@@ -1,1 +1,0 @@
-It is a portfolio website where people can showcase their skills. It also contains CRUD functionality.
