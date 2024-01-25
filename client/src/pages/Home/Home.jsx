@@ -4,14 +4,15 @@ import Navbar from "../../components/Navbar";
 import { fetchResponse } from "../../services/service";
 import { projectEndpoints } from "../../services/endpoints/projectEndpoints";
 import Spinner from "../../components/Spinner";
+import SearchForm from "./Views/SearchForm";
+import Alert from "./Views/Alert";
+import BackButton from "./Views/BackButton";
 
 const Home = () => {
   let [searchedProjects, setSearchedProjects] = useState([]);
-  let [tagFound, setTagFound] = useState(false);
-  let [searchClick, setSearchClick] = useState(false);
   const [projects, setProjects] = useState();
-  const [searched, setSearched] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [showingAlert, setShowingAlert] = useState(false);
 
   useEffect(() => {
     const getProjects = async () => {
@@ -30,163 +31,61 @@ const Home = () => {
     getProjects();
   }, []);
 
-  const FilteringSearch = () => {
-    let a = 0;
-    for (let i = 0; i < projects.length; i++) {
-      if (
-        projects[i].projectTag === searched ||
-        projects[i].projectTag.toUpperCase() === searched ||
-        projects[i].projectTag.toLowerCase() === searched ||
-        projects[i].projectName === searched ||
-        projects[i].projectName.toUpperCase() === searched ||
-        projects[i].projectName.toLowerCase() === searched
-      ) {
-        tagFound = true;
-        setTagFound(tagFound);
-        searchedProjects[a++] = { ...projects[i] };
-      }
-    }
-    searchClick = true;
-    setSearchClick(searchClick);
-    setSearchedProjects(searchedProjects);
+  const FilteringSearch = (event, searched) => {
+    event.preventDefault();
+    setIsLoading(true);
+    let filteredResult = projects.filter(
+      (project) =>
+        project.projectTag === searched ||
+        project.projectTag.toUpperCase() === searched ||
+        project.projectTag.toLowerCase() === searched ||
+        project.projectName === searched ||
+        project.projectName.toUpperCase() === searched ||
+        project.projectName.toLowerCase() === searched
+    );
+    if (!filteredResult.length) setShowingAlert(true);
+    else setSearchedProjects(filteredResult);
+    setIsLoading(false);
   };
 
-  if (isLoading) return <Spinner />
+  if (isLoading) return <Spinner />;
 
-  if (!tagFound && searchClick) {
-    return (
-      <>
-        <Navbar />
-        <div className="container p-5">
-          <form className="d-flex">
-            <input
-              onChange={(event) => setSearched(event.target.value)}
-              value={searched}
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button
-              onClick={FilteringSearch}
-              className="btn btn-outline-danger"
-              type="button"
-            >
-              Search
-            </button>
-          </form>
-          <div
-            className="alert alert-danger alert-dismissible mt-2"
-            role="alert"
-          >
-            Result not found!
-            <button
-              onClick={() => window.location.reload()}
-              type="button"
-              className="btn-close btn-sm"
-              data-bs-dismiss="alert"
-              aria-label="Close"
-            />
-          </div>
-          <br />
-          <hr />
-          <br />
-          <div className="row">
-            {projects.map((x, ind) => (
-              <div key={ind} className="col">
-                <Card
-                  image={projectEndpoints.getProjectImage(x._id)}
-                  name={x.projectName}
-                  username={x.username}
-                  _id={x._id}
-                />
-              </div>
-            ))}
-          </div>
+  return (
+    <>
+      <Navbar />
+      <div className="container p-5">
+        <SearchForm FilteringSearch={FilteringSearch} />
+        {searchedProjects.length ? <BackButton setSearchedProjects={setSearchedProjects}/> : null}
+        <br />
+        <hr />
+        <br />
+        <div className="row">
+          {searchedProjects.length
+            ? searchedProjects.map((x, ind) => (
+                <div key={ind} className="col">
+                  <Card
+                    image={projectEndpoints.getProjectImage(x._id)}
+                    name={x.projectName}
+                    username={x.username}
+                    _id={x._id}
+                  />
+                </div>
+              ))
+            : projects.map((x, ind) => (
+                <div key={ind} className="col">
+                  <Card
+                    image={projectEndpoints.getProjectImage(x._id)}
+                    name={x.projectName}
+                    username={x.username}
+                    _id={x._id}
+                  />
+                </div>
+              ))}
         </div>
-      </>
-    );
-  } else if (projects && !tagFound) {
-    return (
-      <>
-        <Navbar />
-        <div className="container p-5">
-          <form className="d-flex">
-            <input
-              onChange={(event) => setSearched(event.target.value)}
-              value={searched}
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button
-              onClick={FilteringSearch}
-              className="btn btn-outline-danger"
-              type="button"
-            >
-              Search
-            </button>
-          </form>
-          <br />
-          <hr />
-          <br />
-          <div className="row">
-            {projects.map((x, ind) => (
-              <div key={ind} className="col">
-                <Card
-                  image={projectEndpoints.getProjectImage(x._id)}
-                  name={x.projectName}
-                  username={x.username}
-                  _id={x._id}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </>
-    );
-  } else if (projects && tagFound) {
-    return (
-      <>
-        <Navbar />
-        <div className="container p-5">
-          <div className="text-center">
-            <button
-              onClick={() => window.location.reload()}
-              className="btn btn-danger"
-            >
-              Back
-            </button>
-          </div>
-          <br />
-          <hr />
-          <br />
-          <div className="row">
-            {searchedProjects.map((x, ind) => (
-              <div key={ind} className="col">
-                <Card
-                  image={projectEndpoints.getProjectImage(x._id)}
-                  name={x.projectName}
-                  username={x.username}
-                  _id={x._id}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <div className="text-center text-danger mt-5 mb-5">
-          <h1>OOPS!</h1>
-          <p>Check your Internet conection!</p>
-        </div>
-      </>
-    );
-  }
+      </div>
+      {showingAlert ? <Alert setShowingAlert={setShowingAlert} /> : null}
+    </>
+  );
 };
 
 export default Home;
