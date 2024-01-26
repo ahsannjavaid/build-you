@@ -6,4 +6,6 @@ export const userEndpoints = {
   deleteUser: (id) => `${BASE_URL}user/${id}`,
 
   registerUser: () => `${BASE_URL}users`,
+
+  loginUser: () => `${BASE_URL}login-user`,
 };

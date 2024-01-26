@@ -1,12 +1,12 @@
 import "./App.css";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
-import Login from "./pages/Login";
+import Login from "./pages/User/Login/Login";
 import Signup from "./pages/Signup";
 import Footer from "./components/Footer";
-import UserHome from "./pages/UserHome";
+import UserHome from "./pages/User/Home/UserHome";
 import PostProject from "./pages/PostProject";
-import Admin from "./pages/Admin";
+import Admin from "./pages/Admin/Admin";
 import Profile from "./pages/Profile";
 import SingleProjectR from "./pages/SingleProjectR";
 import SingleProjectW from "./pages/SingleProjectW";
