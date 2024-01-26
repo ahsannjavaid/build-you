@@ -4,7 +4,7 @@ const path = require("path");
 
 // Define a function to read the default sample image file
 const getDefaultImage = () => {
-  const defaultImagePath = path.join(__dirname, "../../assets/sample-profile.jpg");
+  const defaultImagePath = path.join(__dirname, "../../assets/sample-project.jpg");
   return fs.readFileSync(defaultImagePath);
 };
 

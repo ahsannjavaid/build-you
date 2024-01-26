@@ -5,27 +5,39 @@ import { fetchResponse } from "../../services/service";
 import { projectEndpoints } from "../../services/endpoints/projectEndpoints";
 import Spinner from "../../components/Spinner";
 import SearchForm from "./Views/SearchForm";
-import Alert from "./Views/Alert";
+import Alert from "../../components/Alert";
 import BackButton from "./Views/BackButton";
+import { errorOf, notFound, serverDown } from "../../helper/responseMessages";
 
 const Home = () => {
   let [searchedProjects, setSearchedProjects] = useState([]);
   const [projects, setProjects] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [showingAlert, setShowingAlert] = useState(false);
+  const [alertTitle, setAlertTitle] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
   useEffect(() => {
     const getProjects = async () => {
       try {
-        let data = await fetchResponse(projectEndpoints.getProjects(), 0, null);
-        if (!data.success) {
-          alert(data.message);
+        let responseData = await fetchResponse(
+          projectEndpoints.getProjects(),
+          0,
+          null
+        );
+        if (!responseData.success) {
+          setShowingAlert(true);
+          setAlertTitle(errorOf(responseData.status));
+          setAlertMessage(responseData.message);
         }
-        setProjects(data.data);
+        setProjects(responseData.data);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
+        setAlertTitle(errorOf(500));
+        setAlertMessage(serverDown);
         setIsLoading(false);
+        setShowingAlert(true);
       }
     };
     getProjects();
@@ -34,17 +46,19 @@ const Home = () => {
   const FilteringSearch = (event, searched) => {
     event.preventDefault();
     setIsLoading(true);
-    let filteredResult = projects.filter(
-      (project) =>
-        project.projectTag === searched ||
-        project.projectTag.toUpperCase() === searched ||
-        project.projectTag.toLowerCase() === searched ||
-        project.projectName === searched ||
-        project.projectName.toUpperCase() === searched ||
-        project.projectName.toLowerCase() === searched
-    );
-    if (!filteredResult.length) setShowingAlert(true);
-    else setSearchedProjects(filteredResult);
+    let filteredResult = projects.filter((project) => {
+      const searchWords = searched.toLowerCase().split(' ');
+      const projectWords = `${project.projectTag} ${project.projectName}`.toLowerCase().split(' ');
+    
+      // Check if there's at least one common word
+      return searchWords.some(word => projectWords.includes(word));
+    });    
+    
+    if (!filteredResult.length) {
+      setAlertTitle(errorOf(404));
+      setAlertMessage(notFound("Project"));
+      setShowingAlert(true);
+    } else setSearchedProjects(filteredResult);
     setIsLoading(false);
   };
 
@@ -55,7 +69,9 @@ const Home = () => {
       <Navbar />
       <div className="container p-5">
         <SearchForm FilteringSearch={FilteringSearch} />
-        {searchedProjects.length ? <BackButton setSearchedProjects={setSearchedProjects}/> : null}
+        {searchedProjects.length ? (
+          <BackButton setSearchedProjects={setSearchedProjects} />
+        ) : null}
         <br />
         <hr />
         <br />
@@ -83,7 +99,12 @@ const Home = () => {
               ))}
         </div>
       </div>
-      {showingAlert ? <Alert setShowingAlert={setShowingAlert} /> : null}
+      <Alert
+        show={showingAlert}
+        setShow={setShowingAlert}
+        message={alertMessage}
+        title={alertTitle}
+      />
     </>
   );
 };

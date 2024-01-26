@@ -26,4 +26,5 @@ logo ratio 3.857142857142857
 .card-v{
     width: 100%;
     height: 250px;
+    object-fit: contain;
 }
