@@ -1,12 +1,12 @@
 import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import NavbarU from '../components/NavbarU'
-import CardP from '../components/CardP'
-import { BASE_URL } from '../services/config'
+import NavbarU from '../../../components/NavbarU'
+import CardP from '../../../components/CardP'
+import { BASE_URL } from '../../../services/config'
+import Alert from '../../../components/Alert'
 
 const Profile = () => {
-
     const navigate = useNavigate()
 
     let localUsername = useParams().username
@@ -24,6 +24,10 @@ const Profile = () => {
     const [profiles, setProfiles] = useState([])
     const [users, setUsers] = useState([])
     const [projectsP, setProjectsP] = useState([])
+  const [isLoading, setIsLoading] = useState(true);
+  const [showingAlert, setShowingAlert] = useState(false);
+  const [alertTitle, setAlertTitle] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
     const uploadedImage = React.useRef(null);
     const imageUploader = React.useRef(null);
@@ -452,18 +456,14 @@ const Profile = () => {
                         </div>
                     </div>
                 </section>
-            </>
-        )
-    }
-    else {
-        return (
-            <>
-                <NavbarU />
-                <section className="gradient-custom-2">
-                    <div className="p-5 text-center">
-                        <h5>Loading...</h5>
-                    </div>
-                </section>
+
+
+                <Alert
+        show={showingAlert}
+        setShow={setShowingAlert}
+        message={alertMessage}
+        title={alertTitle}
+      />
             </>
         )
     }

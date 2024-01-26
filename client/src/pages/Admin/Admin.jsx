@@ -5,7 +5,7 @@ import { userEndpoints } from "../../services/endpoints/userEndpoints";
 import { errorOf, serverDown } from "../../helper/responseMessages";
 import Spinner from "../../components/Spinner";
 import { fetchResponse } from "../../services/service";
-import { Alert } from "react-bootstrap";
+import Alert from "../../components/Alert";
 
 const Admin = () => {
   const [users, setUsers] = useState([]);

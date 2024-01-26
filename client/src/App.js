@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
 import UserHome from "./pages/User/Home/UserHome";
 import PostProject from "./pages/PostProject";
 import Admin from "./pages/Admin/Admin";
-import Profile from "./pages/Profile";
+import Profile from "./pages/User/Home/Profile";
 import SingleProjectR from "./pages/SingleProjectR";
 import SingleProjectW from "./pages/SingleProjectW";
 import ShowOwner from "./pages/ShowOwner";
