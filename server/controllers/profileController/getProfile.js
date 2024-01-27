@@ -1,5 +1,6 @@
 const ProfileSch = require("../../models/ProfileSch");
 const ProjectSch = require("../../models/ProjectSch");
+const UserSch = require("../../models/UserSch");
 
 // getting the posted profile information...
 async function getProfileAndProjects(req, res) {
@@ -10,14 +11,17 @@ async function getProfileAndProjects(req, res) {
       "-profileImage"
     );
     if (result) {
+      const name = await UserSch.findOne({ username }).select(
+        ["fname", "lname"]
+      );
       const projects = await ProjectSch.find({ username }).select(
         "-projectImage"
       );
       res.status(200).send({
         success: true,
-        message: "Profile fetched successfully!",
+        message: "Profile and its Projects fetched successfully!",
         projectsCount: projects.length,
-        data: result,
+        data: {...result.toObject(), name: name.fname + " " + name.lname},
         projectsData: projects,
       });
     } else {
@@ -30,7 +34,7 @@ async function getProfileAndProjects(req, res) {
     console.log(error);
     res.status(500).send({
       success: false,
-      message: "Something went wrong while fetching Profile.",
+      message: "Something went wrong while fetching Profile and its Projects.",
     });
   }
 }

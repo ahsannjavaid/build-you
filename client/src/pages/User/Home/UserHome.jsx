@@ -68,6 +68,7 @@ const Profile = () => {
       setShowingAlert(true);
       if (responseData.success) {
         setAlertTitle(successOf(responseData.status));
+        localStorage.setItem("hasProfile", true);
         navigate(`/profile/${localUsername}`);
       }
       else {

@@ -13,6 +13,8 @@ import SingleProjectW from "./pages/SingleProjectW";
 import ShowOwner from "./pages/ShowOwner";
 
 function App() {
+  const hasProfile = localStorage.getItem("hasProfile");
+
   return (
     <>
       <HashRouter>
@@ -20,10 +22,10 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-          <Route path="user-home/:username" element={<UserHome />} />
+          <Route path="user-home/:username" element={hasProfile === "true" ? <Profile /> : <UserHome />} />
           <Route path="post-project/:username" element={<PostProject />} />
           <Route path="admin" element={<Admin />} />
-          <Route path="profile/:username" element={<Profile />} />
+          <Route path="profile/:username" element={hasProfile !== "true" ? <UserHome /> : <Profile /> }/>
           <Route path="single-project-read/:id" element={<SingleProjectR />} />
           <Route
             path="single-project-write/:username/:id"

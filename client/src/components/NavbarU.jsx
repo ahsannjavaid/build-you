@@ -22,9 +22,9 @@ const NavbarU = () => {
               <Link
                 className="nav-item nav-link"
                 to={
-                  hasProfile
-                    ? `/user-home/${localUsername}`
-                    : `/profile/${localUsername}`
+                  hasProfile === "true"
+                    ? `/profile/${localUsername}`
+                    : `/user-home/${localUsername}`
                 }
               >
                 PROFILE
