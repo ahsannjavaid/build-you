@@ -1,4 +1,5 @@
 import React from "react";
+import { profileEndpoints } from "../../../../services/endpoints/profileEndpoints";
 
 export default function EditProfileForm({
   handleImageUpload,
@@ -16,6 +17,7 @@ export default function EditProfileForm({
   descriptionE,
   setDescriptionE,
   UpdateProfile,
+  profileId
 }) {
   return (
     <form encType="multipart/form-data">
@@ -45,13 +47,14 @@ export default function EditProfileForm({
           style={{ display: "none" }}
         />
         <div
-          className="mt-2"
+          className="mt-2 border border-secondary"
           style={{ height: "60px", width: "60px" }}
           onClick={() => imageUploader.current.click()}
         >
           <img
+          src={`${profileEndpoints.getProfileImage(profileId)}?${Math.random()}`}
             ref={uploadedImage}
-            style={{ width: "100%", height: "100%" }}
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
             alt={""}
           />
         </div>
@@ -135,7 +138,7 @@ export default function EditProfileForm({
       </div>
       <div className="pt-1 mb-4">
         <button
-          onClick={UpdateProfile}
+          onClick={(event) =>UpdateProfile(event)}
           className="btn btn-lg btn-dark btn-block"
           type="submit"
         >

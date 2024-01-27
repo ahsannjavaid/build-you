@@ -38,10 +38,13 @@ async function editProfile(req, res) {
         new: true,
       });
 
-      // Update profileImage if a new image is provided
       if (profileImage) {
-        result.profileImage.data = fs.readFileSync(profileImage.path);
-        result.profileImage.contentType = profileImage.type;
+        const imageData = fs.readFileSync(profileImage.path);
+      
+        result.profileImage = {
+          data: imageData,
+          contentType: profileImage.type,
+        };
       }
 
       await result.save();

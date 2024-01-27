@@ -24,17 +24,17 @@ export default function ProfileView({
           style={{ backgroundColor: "#000", height: 200 }}
         >
           <div className="ms-4 mt-5 d-flex flex-column" style={{ width: 150 }}>
-            <img
-              src={profileEndpoints.getProfileImage(profileId)}
-              alt="profile"
-              className="img-fluid img-thumbnail mt-4 mb-2 border border-dark"
-              style={{
-                width: "150px",
-                minHeight: "150px",
-                zIndex: 1,
-                objectFit: "contain",
-              }}
-            />
+          <img
+  src={`${profileEndpoints.getProfileImage(profileId)}?${Math.random()}`}
+  alt="profile"
+  className="img-fluid img-thumbnail mt-4 mb-2 border border-dark"
+  style={{
+    width: "150px",
+    minHeight: "150px",
+    zIndex: 1,
+    objectFit: "contain",
+  }}
+/>  
             <button
               onClick={EditPanel}
               type="button"

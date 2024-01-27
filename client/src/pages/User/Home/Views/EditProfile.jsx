@@ -17,6 +17,7 @@ export default function EditProfile({
   descriptionE,
   setDescriptionE,
   UpdateProfile,
+  profileId
 }) {
   return (
     <div className="col col-xl-10">
@@ -50,6 +51,7 @@ export default function EditProfile({
                 descriptionE={descriptionE}
                 setDescriptionE={setDescriptionE}
                 UpdateProfile={UpdateProfile}
+                profileId={profileId}
               />
             </div>
           </div>

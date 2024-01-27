@@ -1,19 +1,16 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import NavbarU from "../../../components/NavbarU";
-import { BASE_URL } from "../../../services/config";
 import Alert from "../../../components/Alert";
 import { fetchResponse } from "../../../services/service";
 import { profileEndpoints } from "../../../services/endpoints/profileEndpoints";
 import Spinner from "../../../components/Spinner";
 import EditProfile from "./Views/EditProfile";
-import { errorOf, serverDown } from "../../../helper/responseMessages";
+import { errorOf, serverDown, successOf } from "../../../helper/responseMessages";
 import ProfileView from "./Views/ProfileView";
 
 const Profile = () => {
-  const navigate = useNavigate();
-
   let localUsername = useParams().username;
 
   const [profileImage, setProfileImage] = useState(null);
@@ -58,7 +55,7 @@ const Profile = () => {
       }
     }
     getProfileAndProjects();
-  }, [localUsername]);
+  }, [localUsername, editPanelCheck]);
 
   const handleImageUpload = (e) => {
     setProfileImage(e.target.files[0]);
@@ -83,7 +80,9 @@ const Profile = () => {
     setEditPanelCheck(true);
   };
 
-  const UpdateProfile = () => {
+  const UpdateProfile = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
     var fd = new FormData();
     fd.append("username", localUsername);
     fd.append("phoneNum", phoneNumE);
@@ -95,16 +94,25 @@ const Profile = () => {
     fd.append("followers", profile.followers);
     fd.append("following", profile.following);
     fd.append("profileImage", profileImage);
-    fetch(`${BASE_URL}profile-details/${profile._id}`, {
-      method: "put",
-      body: fd,
-    }).then((res) => {
-      res.json().then((data) => {
-        console.log(data);
-      });
-    });
-    alert("Successfully edited!");
-    navigate(`/profile/${localUsername}`);
+    try {
+      let responseData = await fetchResponse(profileEndpoints.editProfile(profile._id), 5, fd);
+      setAlertMessage(responseData.message);
+      setShowingAlert(true);
+      if (responseData.success) {
+        setAlertTitle(successOf(responseData.status ?? 200));
+        setEditPanelCheck(false);
+      }
+      else {
+        setAlertTitle(errorOf(responseData.status));
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setAlertTitle(errorOf(500));
+      setAlertMessage(serverDown);
+      setIsLoading(false);
+      setShowingAlert(true);
+    }
   };
 
   if (isLoading) return <Spinner />;
@@ -132,6 +140,7 @@ const Profile = () => {
                 descriptionE={descriptionE}
                 setDescriptionE={setDescriptionE}
                 UpdateProfile={UpdateProfile}
+                profileId={profile._id}
               />
             ) : (
               <ProfileView
