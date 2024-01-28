@@ -2,11 +2,10 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import NavbarU from "../../components/NavbarU";
-import { BASE_URL } from "../../services/config";
 import { projectEndpoints } from "../../services/endpoints/projectEndpoints";
 import Spinner from "../../components/Spinner";
 import { fetchResponse } from "../../services/service";
-import { errorOf, serverDown } from "../../helper/responseMessages";
+import { errorOf, serverDown, successOf } from "../../helper/responseMessages";
 import Alert from "../../components/Alert";
 import ProjectForm from "./Views/ProjectForm";
 
@@ -48,26 +47,27 @@ const SingleProjectW = () => {
     getProject();
   }, [id]);
 
-  const DeleteProject = () => {
-    let views = 0,
-      likes = 0;
-    var fd = new FormData();
-    fd.append("username", username);
-    fd.append("likes", likes);
-    fd.append("views", views);
-    fetch(`${BASE_URL}project-details/${id}`, {
-      method: "delete",
-    });
-    fetch(`${BASE_URL}profile-decrement`, {
-      method: "put",
-      body: fd,
-    }).then((res) => {
-      res.json().then((data) => {
-        console.log(data, "Update API");
-      });
-    });
-    alert("Successfully deleted!");
-    navigate(`/profile/${username}`);
+  const DeleteProject = async () => {
+    setIsLoading(true);
+    try {
+      let responseData = await fetchResponse(projectEndpoints.deleteProject(id, username), 3, null);
+      setAlertMessage(responseData.message);
+      setShowingAlert(true);
+      if (responseData.success) {
+        setAlertTitle(successOf(responseData.status ?? 200));
+        navigate(`/profile/${username}`);
+      }
+      else {
+        setAlertTitle(errorOf(responseData.status) ?? 400);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setAlertTitle(errorOf(500));
+      setAlertMessage(serverDown);
+      setIsLoading(false);
+      setShowingAlert(true);
+    }
   };
 
   if (isLoading) return <Spinner />;
