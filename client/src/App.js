@@ -5,7 +5,7 @@ import Login from "./pages/User/Login/Login";
 import Signup from "./pages/Signup";
 import Footer from "./components/Footer";
 import UserHome from "./pages/User/Home/UserHome";
-import PostProject from "./pages/PostProject";
+import PostProject from "./pages/User/PostProject/PostProject";
 import Admin from "./pages/Admin/Admin";
 import Profile from "./pages/User/Home/Profile";
 import SingleProjectR from "./pages/SingleProjectR";

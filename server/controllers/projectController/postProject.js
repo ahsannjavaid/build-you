@@ -28,6 +28,8 @@ async function postProject(req, res) {
         break;
     }
 
+    const { profession } = await ProfileSch.findOne({username}).select("profession");
+    req.fields.projectTag = profession;
     const project = await ProjectSch(req.fields);
 
     if (projectImage) {
