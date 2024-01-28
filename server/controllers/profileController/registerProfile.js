@@ -18,7 +18,7 @@ async function registerProfile(req, res) {
           success: false,
           message: "Username is mandatory.",
         });
-      case profileImage && profileImage.size > 1000000:
+      case profileImage && profileImage.size > 10000000:
         return res.status(413).send({
           success: false,
           message: "Image size exceeds the maximum allowed size.",

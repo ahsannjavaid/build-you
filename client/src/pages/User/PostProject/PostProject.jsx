@@ -58,11 +58,11 @@ const PostProject = () => {
       setAlertMessage(responseData.message);
       setShowingAlert(true);
       if (responseData.success) {
-        setAlertTitle(successOf(responseData.status));
+        setAlertTitle(successOf(responseData.status ?? 200));
         navigate(`/profile/${username}`);
       }
       else {
-        setAlertTitle(errorOf(responseData.status));
+        setAlertTitle(errorOf(responseData.status ?? 400));
       }
       setIsLoading(false);
     } catch (error) {

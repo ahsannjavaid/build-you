@@ -47,13 +47,15 @@ const Home = () => {
     event.preventDefault();
     setIsLoading(true);
     let filteredResult = projects.filter((project) => {
-      const searchWords = searched.toLowerCase().split(' ');
-      const projectWords = `${project.projectTag} ${project.projectName}`.toLowerCase().split(' ');
-    
+      const searchWords = searched.toLowerCase().split(" ");
+      const projectWords = `${project.projectTag} ${project.projectName}`
+        .toLowerCase()
+        .split(" ");
+
       // Check if there's at least one common word
-      return searchWords.some(word => projectWords.includes(word));
-    });    
-    
+      return searchWords.some((word) => projectWords.includes(word));
+    });
+
     if (!filteredResult.length) {
       setAlertTitle(errorOf(404));
       setAlertMessage(notFound("Project"));
@@ -80,20 +82,22 @@ const Home = () => {
             ? searchedProjects.map((x, ind) => (
                 <div key={ind} className="col">
                   <Card
+                    isReadable={true}
                     image={projectEndpoints.getProjectImage(x._id)}
                     name={x.projectName}
                     username={x.username}
-                    _id={x._id}
+                    id={x._id}
                   />
                 </div>
               ))
             : projects.map((x, ind) => (
                 <div key={ind} className="col">
                   <Card
+                    isReadable={true}
                     image={projectEndpoints.getProjectImage(x._id)}
                     name={x.projectName}
                     username={x.username}
-                    _id={x._id}
+                    id={x._id}
                   />
                 </div>
               ))}

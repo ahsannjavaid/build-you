@@ -19,7 +19,7 @@ async function postProject(req, res) {
           success: false,
           message: "Username is mandatory.",
         });
-      case projectImage && projectImage.size > 1000000:
+      case projectImage && projectImage.size > 10000000:
         return res.status(413).send({
           success: false,
           message: "Image size exceeds the maximum allowed size.",

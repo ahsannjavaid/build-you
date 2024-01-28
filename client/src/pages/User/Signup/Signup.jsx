@@ -37,9 +37,10 @@ const Signup = () => {
       setIsLoading(false);
       setShowingAlert(true);
       if (responseData.success) {
-        localStorage.setItem("hasProfile", responseData.hasProfile);
+        localStorage.setItem("hasProfile", responseData.hasProfile ? 1 : 0);
         if (responseData.hasProfile) navigate(`/profile/${username}`);
         else navigate(`/user-home/${username}`);
+        window.location.reload();
       }
     } catch (error) {
       console.log(error);

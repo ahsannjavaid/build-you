@@ -67,12 +67,12 @@ const Profile = () => {
       setAlertMessage(responseData.message);
       setShowingAlert(true);
       if (responseData.success) {
-        setAlertTitle(successOf(responseData.status));
-        localStorage.setItem("hasProfile", true);
+        setAlertTitle(successOf(responseData.status ?? 200));
+        localStorage.setItem("hasProfile", 1);
         navigate(`/profile/${localUsername}`);
       }
       else {
-        setAlertTitle(errorOf(responseData.status));
+        setAlertTitle(errorOf(responseData.status ?? 400));
       }
       setIsLoading(false);
     } catch (error) {

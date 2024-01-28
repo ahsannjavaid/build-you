@@ -1,10 +1,11 @@
 import React from "react";
 import { projectEndpoints } from "../../../../services/endpoints/projectEndpoints";
-import { profileEndpoints } from "../../../../services/endpoints/profileEndpoints";
-import CardP from "../../../../components/CardP";
 import { notFoundPositive } from "../../../../helper/responseMessages";
+import Card from "../../../../components/Card";
+import { profileEndpoints } from "../../../../services/endpoints/profileEndpoints";
 
 export default function ProfileView({
+  isReadable,
   EditPanel,
   name,
   profileId,
@@ -24,26 +25,30 @@ export default function ProfileView({
           style={{ backgroundColor: "#000", height: 200 }}
         >
           <div className="ms-4 mt-5 d-flex flex-column" style={{ width: 150 }}>
-          <img
-  src={`${profileEndpoints.getProfileImage(profileId)}?${Math.random()}`}
-  alt="profile"
-  className="img-fluid img-thumbnail mt-4 mb-2 border border-dark"
-  style={{
-    width: "150px",
-    minHeight: "150px",
-    zIndex: 1,
-    objectFit: "contain",
-  }}
-/>  
-            <button
-              onClick={EditPanel}
-              type="button"
-              className="btn btn-outline-dark mt-2"
-              data-mdb-ripple-color="dark"
-              style={{ zIndex: 1 }}
-            >
-              Edit profile
-            </button>
+            <img
+              src={`${profileEndpoints.getProfileImage(
+                profileId
+              )}?${Math.random()}`}
+              alt="profile"
+              className="img-fluid img-thumbnail mt-4 mb-2 border border-dark"
+              style={{
+                width: "150px",
+                minHeight: "150px",
+                zIndex: 1,
+                objectFit: "contain",
+              }}
+            />
+            {!isReadable ? (
+              <button
+                onClick={EditPanel}
+                type="button"
+                className="btn btn-outline-dark mt-2"
+                data-mdb-ripple-color="dark"
+                style={{ zIndex: 1 }}
+              >
+                Edit profile
+              </button>
+            ) : null}
           </div>
           <div className="ms-3" style={{ marginTop: 130 }}>
             <h3>{name}</h3>
@@ -102,8 +107,9 @@ export default function ProfileView({
             {projectsData.length ? (
               projectsData.map((x, ind) => (
                 <div key={ind} className="col">
-                  <CardP
-                    _id={x._id}
+                  <Card
+                    isReadable={isReadable ?? false}
+                    id={x._id}
                     name={x.projectName}
                     image={projectEndpoints.getProjectImage(x._id)}
                     description={x.projectDescription}
