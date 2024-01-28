@@ -11,6 +11,7 @@ import Profile from "./pages/User/Home/Profile";
 import SingleProjectR from "./pages/Project/SingleProjectR";
 import SingleProjectW from "./pages/Project/SingleProjectW";
 import ShowOwner from "./pages/Profile/ShowOwner";
+import Error from "./pages/Error/Error";
 
 function App() {
   const hasProfile = parseInt(localStorage.getItem("hasProfile"));
@@ -32,6 +33,7 @@ function App() {
             element={<SingleProjectW />}
           />
           <Route path="show-owner/:id/:username" element={<ShowOwner />} />
+          <Route path="*" element={<Error />} />
         </Routes>
         <Footer />
       </HashRouter>
