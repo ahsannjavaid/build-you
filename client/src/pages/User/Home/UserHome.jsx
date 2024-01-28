@@ -70,6 +70,7 @@ const Profile = () => {
         setAlertTitle(successOf(responseData.status ?? 200));
         localStorage.setItem("hasProfile", 1);
         navigate(`/profile/${localUsername}`);
+        window.location.reload();
       }
       else {
         setAlertTitle(errorOf(responseData.status ?? 400));
