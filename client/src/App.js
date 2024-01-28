@@ -2,7 +2,7 @@ import "./App.css";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Login from "./pages/User/Login/Login";
-import Signup from "./pages/Signup";
+import Signup from "./pages/User/Signup/Signup";
 import Footer from "./components/Footer";
 import UserHome from "./pages/User/Home/UserHome";
 import PostProject from "./pages/User/PostProject/PostProject";
@@ -10,7 +10,7 @@ import Admin from "./pages/Admin/Admin";
 import Profile from "./pages/User/Home/Profile";
 import SingleProjectR from "./pages/SingleProjectR";
 import SingleProjectW from "./pages/SingleProjectW";
-import ShowOwner from "./pages/ShowOwner";
+import ShowOwner from "./pages/Profile/ShowOwner";
 
 function App() {
   const hasProfile = localStorage.getItem("hasProfile");
