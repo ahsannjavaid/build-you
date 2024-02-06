@@ -16,6 +16,25 @@ Build you is a portfolio site where user can build their portfolio by adding the
 * Owners can edit and delete their projects
 
 
+# Technology Used
+
+MERN Stack
+
+## Client/Frontend
+
+* React.js
+* Bootstrap 5
+
+## Server/Backend
+
+* Express.js
+* Node.js
+
+## Database
+
+* MongoDB
+
+
 # Hosting
 
 I have used free services for the hosting of this project.
