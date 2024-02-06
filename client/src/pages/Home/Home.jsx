@@ -16,6 +16,7 @@ const Home = () => {
   const [showingAlert, setShowingAlert] = useState(false);
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
+  const [serverStarted, setServerStarted] = useState(sessionStorage.getItem("serverStarted") ? true : false);
 
   useEffect(() => {
     const getProjects = async () => {
@@ -31,6 +32,8 @@ const Home = () => {
           setAlertMessage(responseData.message);
         }
         setProjects(responseData.data);
+        setServerStarted(true);
+        sessionStorage.setItem("serverStarted", 1);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -64,7 +67,7 @@ const Home = () => {
     setIsLoading(false);
   };
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Spinner showingApologoies={!serverStarted ? true : false} />;
 
   return (
     <>
